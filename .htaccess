@@ -1,0 +1,58 @@
+# Disable directory listing
+Options -Indexes
+
+# Limit HTTP methods to GET, POST, OPTIONS (add others if needed)
+<LimitExcept GET POST OPTIONS>
+    Deny from all
+</LimitExcept>
+
+# Prevent hotlinking of images/assets
+<IfModule mod_rewrite.c>
+    RewriteCond %{HTTP_REFERER} !^$
+    RewriteCond %{HTTP_REFERER} !^https://(www\.)?yourdomain\.com/ [NC]
+    RewriteRule \.(jpg|jpeg|png|gif|svg|webp)$ - [F]
+</IfModule>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.html$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.html [L]
+
+## Force HTTPS (supports proxies)
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Add security headers
+<IfModule mod_headers.c>
+    Header always set X-Frame-Options DENY
+    Header always set X-Content-Type-Options nosniff
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    # Content Security Policy (CSP)
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; frame-ancestors 'none';"
+    # Set SameSite for cookies (if using Set-Cookie header)
+    Header edit Set-Cookie ^(.*)$ $1; SameSite=Strict; Secure
+    # Consider customizing Content-Security-Policy for your app
+    # Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'"
+</IfModule>
+
+# Cache static assets
+<IfModule mod_expires.c>
+    ExpiresActive on
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/ttf "access plus 1 year"
+</IfModule>
+
+# Exclude API routes from SPA fallback (if needed)
+# RewriteCond %{REQUEST_URI} !^/api/
+# RewriteRule . /index.html [L]
