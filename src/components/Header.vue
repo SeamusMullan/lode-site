@@ -2,7 +2,7 @@
   <div class="header">
     <div class="header-left">
       <!-- <h1>My Website</h1> -->
-       <img src="../../public/lode.png" alt="Logo" style="height:5rem; width: auto;">
+       <img src="/lode.png" alt="Logo" style="height:5rem; width: auto;">
     </div>
 
     <div class="header-right">
@@ -35,45 +35,71 @@
     rgba(0, 0, 0, 0.002) 98.2%,
     transparent 100%
   );
-  padding: 4rem;
+  padding: 3rem 4rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
   h1 {
     margin: 0;
     font-size: 1.5rem;
   }
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 
 .header-left {
-    display: flex;
-    align-items: center;
-    
-    h1 {
-        margin: 0;
-        font-size: 2.5rem;
-    }
-}
-
-.header-right {
   display: flex;
-  gap: 1rem;
-  padding: 0rem 2rem;
+  align-items: center;
 
-  a,
-  RouterLink {
-    color: white;
-    text-decoration: none;
-    font-size: 1.8rem;
-
-    &:hover {
-      text-decoration: underline;
-      cursor: pointer;
-    }
+  h1 {
+    margin: 0;
+    font-size: 2.5rem;
   }
 }
 
+.header-right {
+  --nav-fs: var(--fs-18);
+  --nav-fs-lg: var(--fs-20);
+  --nav-gap: 2.25rem;
+  display: flex;
+  gap: var(--nav-gap);
+  padding: 0 2rem;
+  font-size: var(--nav-fs);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.02em;
+
+  a,
+  RouterLink {
+    position: relative;
+    color: white;
+    text-decoration: none;
+    padding: 0.25rem 0;
+    transition: color 160ms ease;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0; bottom: 0;
+      width: 100%; height: 2px;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 220ms ease;
+      opacity: 0.7;
+    }
+
+    &:hover::after,
+    &:focus-visible::after { transform: scaleX(1); }
+    &:hover { color: #9cc9ff; }
+  }
+}
+
+@media (min-width: 900px) {
+  .header-right { font-size: var(--nav-fs-lg); }
+}
+
+@media (max-width: 640px) {
+  .header { flex-direction: column; align-items: flex-start; padding: 2rem 1.5rem 1rem; }
+  .header-right { gap: 1.25rem; font-size: var(--fs-16); padding: 1rem 0 0; flex-wrap: wrap; }
+}
 </style>

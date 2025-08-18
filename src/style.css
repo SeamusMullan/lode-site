@@ -1,4 +1,100 @@
-/* Global reset / baseline */
+/* --------------------------------------------------
+   Typography System (Urbanist)
+   - Set global font on :root/body
+   - Provide responsive scale via CSS variables (fluid with clamp)
+   - Element defaults: h1-h6, p, small, a, button, .lead
+   - Utility weight classes (backwards compatible with prior .urbanist-*)
+-------------------------------------------------- */
+
+:root {
+  /* Font families */
+  --font-sans: "Urbanist", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+
+  /* Fluid type scale (min, preferred vw-based, max) */
+  --fs-10: clamp(0.625rem, 0.60rem + 0.10vw, 0.70rem);  /* 10px */
+  --fs-12: clamp(0.70rem, 0.68rem + 0.15vw, 0.75rem);   /* 12px */
+  --fs-14: clamp(0.80rem, 0.78rem + 0.20vw, 0.875rem);  /* 14px base- */
+  --fs-16: clamp(0.95rem, 0.90rem + 0.30vw, 1.00rem);   /* 16px body */
+  --fs-18: clamp(1.00rem, 0.95rem + 0.50vw, 1.125rem);  /* 18px */
+  --fs-20: clamp(1.10rem, 1.05rem + 0.60vw, 1.25rem);   /* 20px */
+  --fs-24: clamp(1.25rem, 1.15rem + 0.90vw, 1.50rem);   /* 24px */
+  --fs-28: clamp(1.45rem, 1.30rem + 1.20vw, 1.75rem);   /* 28px */
+  --fs-32: clamp(1.65rem, 1.50rem + 1.50vw, 2.00rem);   /* 32px */
+  --fs-40: clamp(2.00rem, 1.80rem + 2.20vw, 2.50rem);   /* 40px */
+  --fs-48: clamp(2.30rem, 2.10rem + 2.80vw, 3.00rem);   /* 48px */
+  --fs-56: clamp(2.60rem, 2.40rem + 3.40vw, 3.50rem);   /* 56px */
+  --fs-64: clamp(2.90rem, 2.70rem + 4.00vw, 4.00rem);   /* 64px */
+
+  /* Line heights (unitless) */
+  --lh-tight: 1.1;
+  --lh-snug: 1.2;
+  --lh-normal: 1.38;
+  --lh-relaxed: 1.55;
+
+  /* Font weights */
+  --fw-thin: 100;
+  --fw-extralight: 200;
+  --fw-light: 300;
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+  --fw-black: 900;
+
+  /* Misc */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.03em;
+}
+
+html { font-size: 100%; }
+
+body {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-16);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Headings */
+h1, .h1 { font-size: var(--fs-56); line-height: var(--lh-tight); font-weight: var(--fw-semibold); letter-spacing: var(--tracking-tight); }
+h2, .h2 { font-size: var(--fs-48); line-height: var(--lh-tight); font-weight: var(--fw-semibold); letter-spacing: var(--tracking-tight); }
+h3, .h3 { font-size: var(--fs-40); line-height: var(--lh-snug); font-weight: var(--fw-semibold); }
+h4, .h4 { font-size: var(--fs-32); line-height: var(--lh-snug); font-weight: var(--fw-medium); }
+h5, .h5 { font-size: var(--fs-24); line-height: var(--lh-normal); font-weight: var(--fw-medium); }
+h6, .h6 { font-size: var(--fs-20); line-height: var(--lh-normal); font-weight: var(--fw-medium); text-transform: uppercase; letter-spacing: 0.05em; }
+
+p, ul, ol { font-size: var(--fs-16); line-height: var(--lh-relaxed); margin: 0 0 1em; }
+small, .text-sm { font-size: var(--fs-12); line-height: var(--lh-normal); }
+.lead { font-size: var(--fs-20); line-height: var(--lh-relaxed); font-weight: var(--fw-light); }
+
+a { color: inherit; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+button, .button { font-family: inherit; font-size: var(--fs-16); font-weight: var(--fw-medium); line-height: var(--lh-snug); }
+
+/* Optional utility for font sizes by data attribute: <p data-fs="24"> */
+[data-fs="12"] { font-size: var(--fs-12); }
+[data-fs="14"] { font-size: var(--fs-14); }
+[data-fs="16"] { font-size: var(--fs-16); }
+[data-fs="18"] { font-size: var(--fs-18); }
+[data-fs="20"] { font-size: var(--fs-20); }
+[data-fs="24"] { font-size: var(--fs-24); }
+[data-fs="28"] { font-size: var(--fs-28); }
+[data-fs="32"] { font-size: var(--fs-32); }
+[data-fs="40"] { font-size: var(--fs-40); }
+[data-fs="48"] { font-size: var(--fs-48); }
+[data-fs="56"] { font-size: var(--fs-56); }
+[data-fs="64"] { font-size: var(--fs-64); }
+
+/* Spacing utilities for vertical rhythm */
+.mt-none { margin-top: 0 !important; }
+.mb-none { margin-bottom: 0 !important; }
+.stack > * + * { margin-top: 0.75em; }
+
 html, body, #app {
 	margin: 0;
 	padding: 0;
@@ -10,9 +106,8 @@ html, body, #app {
 }
 
 body {
-	background: #151515;
-	color: #fff;
-	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  background: #151515;
+  color: #fff;
 }
 
 #app > .app {
