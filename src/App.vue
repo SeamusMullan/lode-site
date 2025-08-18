@@ -8,7 +8,7 @@ import Header from './components/Header.vue';
     <Header />
     <!-- Contains RouterLink components -->
     <main class="content">
-      <RouterView />
+        <Hero />
     </main>
     <Footer />
   </div>

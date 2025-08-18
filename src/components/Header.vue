@@ -6,16 +6,15 @@
     </div>
 
     <div class="header-right">
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/portfolio">About</RouterLink>
-      <RouterLink to="/testimonials">Testimonials</RouterLink>
-      <RouterLink to="/contact">Contact</RouterLink>
+      <a href="/#">Home</a>
+      <a href="/#portfolio">About</a>
+      <a href="/#testimonials">Testimonials</a>
+      <a href="/#contact">Contact</a>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
 </script>
 
 <style lang="scss" scoped>
