@@ -1,46 +1,91 @@
 <template>
-    <div class="hero">
-        <h1 class="hero-title">Welcome to My Website</h1>
-        <p class="hero-description">Your one-stop solution for all your needs.</p>
-        <a href="/#contact" class="hero-button">Get in Touch</a>
-    </div>
+  <section class="hero-single" role="banner">
+    <figure class="slide">
+      <img
+        class="slide-img"
+        :src="image.src"
+        :alt="image.alt || ''"
+        loading="lazy"
+        decoding="async"
+        draggable="false"
+      />
+      <figcaption v-if="image.caption" class="caption">
+        <div class="caption-inner">
+          <h2 v-if="typeof image.caption === 'string'">{{ image.caption }}</h2>
+          <component v-else :is="image.caption" />
+        </div>
+      </figcaption>
+    </figure>
+  </section>
 </template>
 
-<script>
+<script setup>
+const props = defineProps({
+  image: {
+    type: Object,
+    default: () => ({
+      src: "/image.png",
+      alt: "Default hero image",
+      caption: "Welcome to our site",
+    }),
+  },
+  aspectRatio: { type: String, default: "17 / 6" }, // a bit shorter
+});
 </script>
 
-<style lang="scss" scoped>
-@use "sass:color";
-
-.hero {
-    color: white;
-    padding: 4rem;
-    text-align: center;
+<style scoped>
+:root {
+  --hs-radius: 12px;
+  --hs-caption-bg: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.55),
+    rgba(0, 0, 0, 0)
+  );
+}
+.hero-single {
+  width: 100%;
+  position: relative;
+}
+.slide {
+  width: 100%;
+  aspect-ratio: v-bind(aspectRatio);
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--hs-radius);
+  margin-left: 0px;
+  margin-right: 0px;
 }
 
-.hero-title {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
+.slide-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0,0,0,0) 100%);
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  position: relative;
+  z-index: 0;
+  /* Light blur removed (can cause extra posterization). Keep only mild contrast tweak. */
+  filter: contrast(10.5);
 }
 
-.hero-description {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
+.caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: clamp(12px, 2.5vw, 28px);
+  color: white;
+  background: var(--hs-caption-bg);
+  z-index: 2;
 }
 
-.hero-button {
-    padding: 1rem 2rem;
-    /* darken(#007bff, 10%) -> adjust lightness by -10% */
-    background-color: color.adjust(#007bff, $lightness: -10%);
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-
-    &:hover {
-        /* darken(#007bff, 15%) -> adjust lightness by -15% */
-        background-color: color.adjust(#007bff, $lightness: -15%);
-    }
+.caption-inner {
+  max-width: min(100%, 1000px);
+  margin-inline: auto;
+  font-size: clamp(20px, 2.5vw, 36px);
+  font-weight: 700;
+  line-height: 1.2;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
 }
-
 </style>
