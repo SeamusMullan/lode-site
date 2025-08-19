@@ -57,7 +57,7 @@ const duplicatedLogos = computed(() => [...logos, ...logos]);
 
 <style scoped>
 .logo-slider {
-  padding-bottom: 4rem;
+  padding-bottom: 2rem;
   padding-top: 2rem;
   text-align: center;
 }
