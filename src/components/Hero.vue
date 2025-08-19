@@ -29,7 +29,7 @@ const props = defineProps({
       caption: "Welcome to our site",
     }),
   },
-  aspectRatio: { type: String, default: "17 / 6" }, // a bit shorter
+  aspectRatio: { type: String, default: "17 / 6" }, // a bit 
 });
 </script>
 

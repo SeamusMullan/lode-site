@@ -3,6 +3,7 @@
 import Header from './components/Header.vue';
 import Hero from './components/Hero.vue';
 import TestemonialLogos from './components/Testemonial-Logos.vue';
+import PortfolioPreview from './components/Portfolio-Preview.vue';
 </script>
 
 <template>
@@ -13,6 +14,7 @@ import TestemonialLogos from './components/Testemonial-Logos.vue';
       <!--<Hero />-->
       <Hero />
       <TestemonialLogos />
+      <PortfolioPreview />
     </main>
     <Footer />
   </div>
