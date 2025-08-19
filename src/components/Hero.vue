@@ -2,7 +2,7 @@
     <div class="hero">
         <h1 class="hero-title">Welcome to My Website</h1>
         <p class="hero-description">Your one-stop solution for all your needs.</p>
-        <a href="/#contact" class="hero-button">Get in Touch</a>
+        <!-- <a href="/#contact" class="hero-button">Get in Touch</a> -->
     </div>
 </template>
 
