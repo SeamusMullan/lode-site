@@ -25,8 +25,8 @@ const props = defineProps({
     type: Object,
     default: () => ({
       src: "/image.png",
-      alt: "Default hero image",
-      caption: "Welcome to our site",
+      alt: "Hero image",
+      caption: "Welcome to LODE",
     }),
   },
   aspectRatio: { type: String, default: "17 / 6" }, // a bit 
@@ -73,11 +73,15 @@ const props = defineProps({
 
 .caption {
   position: absolute;
-  inset: auto 0 0 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   padding: clamp(12px, 2.5vw, 28px);
   color: white;
   background: var(--hs-caption-bg);
   z-index: 2;
+  width: fit-content;
+  border-radius: 8px;
 }
 
 .caption-inner {
