@@ -106,11 +106,8 @@ const duplicatedLogos = computed(() => [...logos, ...logos]);
 
 /* scrolling animation */
 @keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
+  to {
+    transform: translate(-50%);
   }
 }
 
