@@ -31,25 +31,10 @@
 import { computed } from "vue";
 
 const logos = [
-  { src: "https://avatar.iran.liara.run/public", alt: "Artist Name" },
-  { src: "https://avatar.iran.liara.run/public", alt: "Artist Name" },
-  { src: "https://avatar.iran.liara.run/public", alt: "Artist Name" },
-  { src: "https://avatar.iran.liara.run/public", alt: "Artist Name" },
-  { src: "https://avatar.iran.liara.run/public", alt: "Artist Name" },
-  { src: "https://avatar.iran.liara.run/public", alt: "Artist Name" },
-  { src: "https://avatar.iran.liara.run/public", alt: "Artist Name" },
-  { src: "https://avatar.iran.liara.run/public", alt: "Artist Name" },
-  { src: "https://avatar.iran.liara.run/public", alt: "Artist Name" },
-  { src: "https://avatar.iran.liara.run/public", alt: "Artist Name" },
-  { src: "https://avatar.iran.liara.run/public", alt: "Artist Name" },
-  { src: "https://avatar.iran.liara.run/public", alt: "Artist Name" },
-  { src: "https://avatar.iran.liara.run/public", alt: "Artist Name" },
-  { src: "https://avatar.iran.liara.run/public", alt: "Artist Name" },
-  { src: "https://avatar.iran.liara.run/public", alt: "Artist Name" },
-  { src: "https://avatar.iran.liara.run/public", alt: "Artist Name" },
-  { src: "https://avatar.iran.liara.run/public", alt: "Artist Name" },
-  { src: "https://avatar.iran.liara.run/public", alt: "Artist Name" },
-  
+  { src: "/logos/hevel.png", alt: "Hevel" },
+  { src: "/logos/jiselle.png", alt: "Jiselle" },
+  { src: "/logos/maybe_blue.png", alt: "Maybe Blue" },
+  { src: "/logos/sonny_zero.png", alt: "Sonny Zero" },
 ];
 
 const duplicatedLogos = computed(() => [...logos, ...logos]);
