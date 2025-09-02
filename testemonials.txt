@@ -1,0 +1,13 @@
+For some song:
+- *Artist Name(s)
+- *Art (PNG / JPG / JPEG)
+- *Song Name
+- Song Info
+    - Label
+    - Album
+- Links *(at least one)
+    - Spotify
+    - Apple Music
+    - SoundCloud
+    - Bandcamp
+    - etc.
