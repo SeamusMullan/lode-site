@@ -3,27 +3,31 @@
     <a href="/portfolio" class="cta-button">View Full Portfolio</a>
   </div>
 
-  <div class="song-list" id="song-list-1">
-    <ul>
-      <li v-for="song in songs" :key="song.id">
-        <img :src="song.cover" :alt="song.title" />
-        <p>{{ song.title }}</p>
-      </li>
-    </ul>
+  <div class="portfolio-slider">
+    <div class="portfolio-slider__track-wrapper">
+      <!-- scrolling container -->
+      <ul class="portfolio-slider__track">
+        <li
+          v-for="song in duplicatedSongs"
+          :key="`${song.id}-${song.duplicateIndex || 0}`"
+          class="portfolio-slider__item"
+        >
+          <img :src="song.cover" :alt="song.title" class="portfolio-slider__image" />
+          <p class="portfolio-slider__title">{{ song.title }} - {{ song.artist }}</p>
+        </li>
+      </ul>
+
+      <!-- gradient masks for smooth edges -->
+      <div class="portfolio-slider__fade portfolio-slider__fade--left"></div>
+      <div class="portfolio-slider__fade portfolio-slider__fade--right"></div>
+    </div>
   </div>
+
   <div class="spacer"></div>
-  <div class="song-list" id="song-list-2">
-    <ul>
-      <li v-for="song in songs" :key="song.id">
-        <img :src="song.cover" :alt="song.title" />
-        <p class="song-title">{{ song.title }}</p>
-      </li>
-    </ul>
-  </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 
 class Song {
   constructor(id, title, artist, cover) {
@@ -40,7 +44,7 @@ const APIKEY = import.meta.env.VITE_AUXKIT_FORMS_API_KEY;
 const baseUrl = "https://z4he9qd8w6.execute-api.eu-west-1.amazonaws.com/prod";
 
 // fetch the songs for this site from the api
-const siteID = "bpj3imv48bl6ihq4fr2nn"; // TODO: replace with actual ID
+const siteID = "cp3z846o6xej9jjwfb0zk"; // TODO: replace with actual ID
 
 // Reactive songs array
 const songs = ref([
@@ -50,6 +54,16 @@ const songs = ref([
   new Song(3, "Song Title 3", "Artist 3", "https://picsum.photos/800"),
   new Song(4, "Song Title 4", "Artist 4", "https://picsum.photos/800"),
 ]);
+
+// Create duplicated songs for infinite scroll effect
+const duplicatedSongs = computed(() => {
+  const duplicated = [...songs.value, ...songs.value];
+  // Add duplicate index to help with unique keys
+  return duplicated.map((song, index) => ({
+    ...song,
+    duplicateIndex: Math.floor(index / songs.value.length)
+  }));
+});
 
 const fetchSongs = async () => {
   try {
@@ -138,22 +152,6 @@ onMounted(async () => {
     opacity: 0.7;
   }
 }
-@keyframes cta-border-flash {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
-  }
-}
-@keyframes cta-border-flash {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 200% 50%;
-  }
-}
 
 @keyframes cta-border-flash {
   0% {
@@ -164,65 +162,125 @@ onMounted(async () => {
   }
 }
 
-#song-list-1 {
-  transform: translateX(-8rem);
+/* Portfolio Slider Styles */
+.portfolio-slider {
+  padding-bottom: 2rem;
+  padding-top: 2rem;
 }
 
-#song-list-2 {
-  transform: translateX(8rem);
+.portfolio-slider__track-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
 }
 
-.song-list ul {
+.portfolio-slider__track {
   display: flex;
-  flex-wrap: nowrap;
   gap: 2rem;
-  justify-content: center;
+  animation: portfolio-scroll 25s linear infinite;
+  list-style: none;
   padding: 0;
   margin: 0;
-  list-style: none;
-  max-width: 100%;
 }
 
-.song-list li {
-  flex: 0 1 480px;
+.portfolio-slider__item {
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 480px;
+  width: 480px;
 }
 
-.song-list img {
+.portfolio-slider__image {
   width: 480px;
   height: 480px;
   object-fit: cover;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   margin-bottom: 0.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transform: scale(0.95);
 }
 
-.song-list p {
+.portfolio-slider__image:hover {
+  transform: scale(1.0);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.portfolio-slider__title {
   text-align: center;
-  font-size: 1rem;
+  font-size: 1.75rem;
   margin: 0;
   color: #b0b0b0;
+  font-weight: bold;
 }
 
-.song-title {
-  font-weight: bold;
-  color: #fff;
+.portfolio-slider__fade {
+  position: absolute;
+  top: 0;
+  width: 120px;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.portfolio-slider__fade--left {
+  left: 0;
+  background: linear-gradient(to right, #0f0f0f, transparent);
+}
+
+.portfolio-slider__fade--right {
+  right: 0;
+  background: linear-gradient(to left, #0f0f0f, transparent);
+}
+
+/* Infinite scrolling animation */
+@keyframes portfolio-scroll {
+  to {
+    transform: translate(-50%);
+  }
 }
 
 /* Responsive: shrink images and gap on small screens */
 @media (max-width: 600px) {
-  .song-list ul {
-    gap: 0.5rem;
+  .portfolio-slider__track {
+    gap: 1rem;
   }
-  .song-list li {
-    max-width: 70px;
+  
+  .portfolio-slider__item {
+    width: 280px;
   }
-  .song-list img {
-    width: 480px;
-    height: 480px;
+  
+  .portfolio-slider__image {
+    width: 280px;
+    height: 280px;
+  }
+  
+  .portfolio-slider__title {
+    font-size: 1.25rem;
+  }
+  
+  .portfolio-slider__fade {
+    width: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .portfolio-slider__track {
+    gap: 1.5rem;
+  }
+  
+  .portfolio-slider__item {
+    width: 320px;
+  }
+  
+  .portfolio-slider__image {
+    width: 320px;
+    height: 320px;
+  }
+  
+  .portfolio-slider__title {
+    font-size: 1.5rem;
   }
 }
 </style>

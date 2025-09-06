@@ -63,7 +63,7 @@ const duplicatedLogos = computed(() => [...logos, ...logos]);
 .logo-slider__track {
   display: flex;
   gap: 8rem;
-  animation: scroll 30s linear infinite;
+  animation: scroll 15s linear infinite;
 }
 
 .logo-slider__item {
