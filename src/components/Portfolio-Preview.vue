@@ -1,8 +1,7 @@
 <template>
-  <div class="cta">
-    <a href="/portfolio" class="cta-button">View Full Portfolio</a>
-  </div>
-
+  <br />
+  <br />
+  <br />
   <div class="portfolio-slider">
     <div class="portfolio-slider__track-wrapper">
       <!-- scrolling container -->
@@ -12,8 +11,14 @@
           :key="`${song.id}-${song.duplicateIndex || 0}`"
           class="portfolio-slider__item"
         >
-          <img :src="song.cover" :alt="song.title" class="portfolio-slider__image" />
-          <p class="portfolio-slider__title">{{ song.title }} - {{ song.artist }}</p>
+          <img
+            :src="song.cover"
+            :alt="song.title"
+            class="portfolio-slider__image"
+          />
+          <p class="portfolio-slider__title">
+            {{ song.title }} - {{ song.artist }}
+          </p>
         </li>
       </ul>
 
@@ -23,11 +28,14 @@
     </div>
   </div>
 
+  <div class="cta">
+    <a href="/portfolio" class="cta-button">View Full Portfolio</a>
+  </div>
   <div class="spacer"></div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed } from "vue";
 
 class Song {
   constructor(id, title, artist, cover) {
@@ -63,7 +71,7 @@ const duplicatedSongs = computed(() => {
   // Add duplicate index to help with unique keys
   return duplicated.map((song, index) => ({
     ...song,
-    duplicateIndex: Math.floor(index / songs.value.length)
+    duplicateIndex: Math.floor(index / songs.value.length),
   }));
 });
 
@@ -82,7 +90,6 @@ const fetchSongs = async () => {
     return data.map(
       (song) => new Song(song.id, song.title, song.artist, song.albumArtUrl)
     );
-
   } catch (error) {
     console.error("Error fetching songs:", error);
     return [];
@@ -97,8 +104,6 @@ onMounted(async () => {
   }
   // If fetchedSongs is empty, keep the default demo data
 });
-
-
 </script>
 
 <style lang="scss" scoped>
@@ -179,7 +184,7 @@ onMounted(async () => {
 .portfolio-slider__track {
   display: flex;
   gap: 2rem;
-  animation: portfolio-scroll 25s linear infinite;
+  animation: portfolio-scroll 20s linear infinite;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -205,7 +210,7 @@ onMounted(async () => {
 }
 
 .portfolio-slider__image:hover {
-  transform: scale(1.0);
+  transform: scale(1);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
@@ -248,20 +253,20 @@ onMounted(async () => {
   .portfolio-slider__track {
     gap: 1rem;
   }
-  
+
   .portfolio-slider__item {
     width: 280px;
   }
-  
+
   .portfolio-slider__image {
     width: 280px;
     height: 280px;
   }
-  
+
   .portfolio-slider__title {
     font-size: 1.25rem;
   }
-  
+
   .portfolio-slider__fade {
     width: 60px;
   }
@@ -271,16 +276,16 @@ onMounted(async () => {
   .portfolio-slider__track {
     gap: 1.5rem;
   }
-  
+
   .portfolio-slider__item {
     width: 320px;
   }
-  
+
   .portfolio-slider__image {
     width: 320px;
     height: 320px;
   }
-  
+
   .portfolio-slider__title {
     font-size: 1.5rem;
   }

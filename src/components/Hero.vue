@@ -26,7 +26,7 @@ const props = defineProps({
     default: () => ({
       src: "/image.png",
       alt: "Hero image",
-      caption: "Welcome to LODE",
+      caption: "Welcome to LODE*",
     }),
   },
   aspectRatio: { type: String, default: "17 / 6" }, // a bit 

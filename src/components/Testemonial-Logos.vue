@@ -37,7 +37,7 @@ const logos = [
   { src: "/logos/sonny_zero.png", alt: "Sonny Zero" },
 ];
 
-const duplicatedLogos = computed(() => [...logos, ...logos]);
+const duplicatedLogos = computed(() => [...logos, ...logos, ...logos]);
 </script>
 
 <style scoped>
