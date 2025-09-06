@@ -1,5 +1,4 @@
 <template>
-  <!-- TODO: implement a CTA to link to the full portfolio page -->
   <div class="cta">
     <a href="/portfolio" class="cta-button">View Full Portfolio</a>
   </div>
@@ -17,13 +16,15 @@
     <ul>
       <li v-for="song in songs" :key="song.id">
         <img :src="song.cover" :alt="song.title" />
-        <!-- <p class="song-title">{{ song.title }}</p> -->
+        <p class="song-title">{{ song.title }}</p>
       </li>
     </ul>
   </div>
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
+
 class Song {
   constructor(id, title, artist, cover) {
     this.id = id;
@@ -33,12 +34,55 @@ class Song {
   }
 }
 
-const songs = [
+// we need to link to forms.auxkit.dev API to allow dynamic song fetching.
+
+const APIKEY = import.meta.env.VITE_AUXKIT_FORMS_API_KEY;
+const baseUrl = "https://z4he9qd8w6.execute-api.eu-west-1.amazonaws.com/prod";
+
+// fetch the songs for this site from the api
+const siteID = "bpj3imv48bl6ihq4fr2nn"; // TODO: replace with actual ID
+
+// Reactive songs array
+const songs = ref([
+  // Default demo data
   new Song(1, "Song Title 1", "Artist 1", "https://picsum.photos/800"),
   new Song(2, "Song Title 2", "Artist 2", "https://picsum.photos/800"),
   new Song(3, "Song Title 3", "Artist 3", "https://picsum.photos/800"),
   new Song(4, "Song Title 4", "Artist 4", "https://picsum.photos/800"),
-];
+]);
+
+const fetchSongs = async () => {
+  try {
+    const response = await fetch(`${baseUrl}/public/sites/${siteID}/songs`, {
+      headers: {
+        Authorization: `Bearer ${APIKEY}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data = await response.json();
+    // API returns a direct array of songs
+    return data.map(
+      (song) => new Song(song.id, song.title, song.artist, song.albumArtUrl)
+    );
+
+  } catch (error) {
+    console.error("Error fetching songs:", error);
+    return [];
+  }
+};
+
+// Fetch songs when component mounts
+onMounted(async () => {
+  const fetchedSongs = await fetchSongs();
+  if (fetchedSongs.length > 0) {
+    songs.value = fetchedSongs;
+  }
+  // If fetchedSongs is empty, keep the default demo data
+});
+
+
 </script>
 
 <style lang="scss" scoped>
