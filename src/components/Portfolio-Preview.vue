@@ -115,7 +115,7 @@ onMounted(async () => {
 
 .cta-button {
   background: linear-gradient(90deg, #ff3300 0%, #ff9900 100%);
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 900;
   color: #fff;
   padding: 0.75rem 2.5rem;
