@@ -48,7 +48,8 @@ const duplicatedLogos = computed(() => [...logos, ...logos]);
 }
 
 .logo-slider__intro {
-  font-size: 1.25rem;
+  font-size: 1.7:wq
+  5rem;
   font-weight: 500;
   color: #b0b0b0;
   margin-bottom: 1.5rem;

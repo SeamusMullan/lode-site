@@ -49,10 +49,12 @@ const siteID = "cp3z846o6xej9jjwfb0zk"; // TODO: replace with actual ID
 // Reactive songs array
 const songs = ref([
   // Default demo data
-  new Song(1, "Song Title 1", "Artist 1", "https://picsum.photos/800"),
-  new Song(2, "Song Title 2", "Artist 2", "https://picsum.photos/800"),
-  new Song(3, "Song Title 3", "Artist 3", "https://picsum.photos/800"),
-  new Song(4, "Song Title 4", "Artist 4", "https://picsum.photos/800"),
+  new Song(1, "", "Artist 1", "https://picsum.photos/800"),
+  new Song(2, "", "Artist 2", "https://picsum.photos/800"),
+  new Song(2, "", "Artist 2", "https://picsum.photos/800"),
+  new Song(2, "", "Artist 2", "https://picsum.photos/800"),
+  new Song(3, "", "Artist 3", "https://picsum.photos/800"),
+  new Song(4, "", "Artist 4", "https://picsum.photos/800"),
 ]);
 
 // Create duplicated songs for infinite scroll effect
