@@ -6,6 +6,8 @@ import TestemonialLogos from './components/Testemonial-Logos.vue';
 import PortfolioPreview from './components/Portfolio-Preview.vue';
 import About from './components/About.vue';
 import TestemonialDetailed from './components/Testemonials-Detailed.vue';
+import Footer from './components/Footer.vue';
+
 </script>
 
 <template>
