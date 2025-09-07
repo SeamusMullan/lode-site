@@ -4,6 +4,7 @@ import Header from './components/Header.vue';
 import Hero from './components/Hero.vue';
 import TestemonialLogos from './components/Testemonial-Logos.vue';
 import PortfolioPreview from './components/Portfolio-Preview.vue';
+import About from './components/About.vue';
 </script>
 
 <template>
@@ -15,6 +16,7 @@ import PortfolioPreview from './components/Portfolio-Preview.vue';
       <Hero />
       <TestemonialLogos />
       <PortfolioPreview />
+      <About />
     </main>
     <Footer />
   </div>

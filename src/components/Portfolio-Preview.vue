@@ -55,7 +55,6 @@
   <div class="cta">
     <a href="/portfolio" class="cta-button">View Full Portfolio</a>
   </div>
-  <div class="spacer"></div>
 </template>
 
 <script setup>
