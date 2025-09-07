@@ -18,7 +18,7 @@ import TestemonialDetailed from './components/Testemonials-Detailed.vue';
       <TestemonialLogos />
       <PortfolioPreview />
       <About />
-      <Testemonial-Detailed />
+      <TestemonialDetailed />
     </main>
     <Footer />
   </div>
