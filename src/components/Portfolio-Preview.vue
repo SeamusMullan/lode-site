@@ -285,14 +285,19 @@ onMounted(async () => {
 .portfolio-slider__track {
   display: flex;
   gap: 2rem;
-  animation: portfolio-scroll var(--animation-duration, 20s) linear infinite;
   list-style: none;
   padding: 0;
   margin: 0;
+  --s: 0.5; /* speed factor on hover */
+  animation: 
+    portfolio-scroll var(--animation-duration, 20s) linear infinite,
+    portfolio-scroll calc(var(--animation-duration, 20s)/var(--s)) 
+    linear reverse paused;
+  animation-composition: add;
 }
 
 .portfolio-slider__track:hover {
-  animation-play-state: paused;
+  animation-play-state: running, running;
 }
 
 .portfolio-slider__item {
