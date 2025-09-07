@@ -5,7 +5,13 @@
   <div class="portfolio-slider">
     <div class="portfolio-slider__track-wrapper">
       <!-- scrolling container -->
-      <ul class="portfolio-slider__track">
+      <ul 
+        class="portfolio-slider__track"
+        :style="{
+          '--animation-duration': animationProps.duration,
+          '--animation-distance': animationProps.distance
+        }"
+      >
         <li
           v-for="song in duplicatedSongs"
           :key="`${song.id}-${song.duplicateIndex || 0}`"
@@ -53,7 +59,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, onUnmounted } from "vue";
 
 class Song {
   constructor(id, title, artist, cover, platforms = {}) {
@@ -103,14 +109,52 @@ const songs = ref([
   }),
 ]);
 
+// Track window width for responsive calculations
+const windowWidth = ref(typeof window !== 'undefined' ? window.innerWidth : 1200);
+
+const updateWindowWidth = () => {
+  windowWidth.value = window.innerWidth;
+};
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateWindowWidth);
+});
+
 // Create duplicated songs for infinite scroll effect
 const duplicatedSongs = computed(() => {
+  // Only duplicate once for seamless infinite scroll
   const duplicated = [...songs.value, ...songs.value];
   // Add duplicate index to help with unique keys
   return duplicated.map((song, index) => ({
     ...song,
     duplicateIndex: Math.floor(index / songs.value.length),
   }));
+});
+
+// Calculate dynamic animation properties
+const animationProps = computed(() => {
+  const songCount = songs.value.length;
+  if (songCount === 0) return { duration: '20s', distance: '50%' };
+  
+  // Calculate item width based on screen size
+  let itemWidth = 512; // Desktop: 480px + 32px gap
+  
+  if (windowWidth.value <= 600) {
+    itemWidth = 296; // Mobile: 280px + 16px gap
+  } else if (windowWidth.value <= 768) {
+    itemWidth = 344; // Tablet: 320px + 24px gap
+  }
+  
+  const totalDistance = songCount * itemWidth;
+  
+  // Base speed: show each song for about 4 seconds (slower)
+  const timePerSong = 6; // seconds
+  const duration = songCount * timePerSong;
+  
+  return {
+    duration: `${duration}s`,
+    distance: `${totalDistance}px`
+  };
 });
 
 const fetchSongs = async () => {
@@ -152,6 +196,10 @@ const fetchSongs = async () => {
 
 // Fetch songs when component mounts
 onMounted(async () => {
+  // Set up resize listener
+  window.addEventListener('resize', updateWindowWidth);
+  
+  // Fetch songs from API
   const fetchedSongs = await fetchSongs();
   if (fetchedSongs.length > 0) {
     songs.value = fetchedSongs;
@@ -238,7 +286,7 @@ onMounted(async () => {
 .portfolio-slider__track {
   display: flex;
   gap: 2rem;
-  animation: portfolio-scroll 20s linear infinite;
+  animation: portfolio-scroll var(--animation-duration, 20s) linear infinite;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -354,8 +402,11 @@ onMounted(async () => {
 
 /* Infinite scrolling animation */
 @keyframes portfolio-scroll {
-  to {
-    transform: translate(-50%);
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-1 * var(--animation-distance, 50%)));
   }
 }
 
@@ -363,6 +414,7 @@ onMounted(async () => {
 @media (max-width: 600px) {
   .portfolio-slider__track {
     gap: 1rem;
+    --item-width: 296px; /* 280px + 16px gap */
   }
 
   .portfolio-slider__item {
@@ -396,6 +448,7 @@ onMounted(async () => {
 @media (max-width: 768px) {
   .portfolio-slider__track {
     gap: 1.5rem;
+    --item-width: 344px; /* 320px + 24px gap */
   }
 
   .portfolio-slider__item {
