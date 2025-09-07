@@ -11,11 +11,29 @@
           :key="`${song.id}-${song.duplicateIndex || 0}`"
           class="portfolio-slider__item"
         >
-          <img
-            :src="song.cover"
-            :alt="song.title"
-            class="portfolio-slider__image"
-          />
+          <div class="portfolio-slider__image-container">
+            <img
+              :src="song.cover"
+              :alt="song.title"
+              class="portfolio-slider__image"
+            />
+            <div class="portfolio-slider__overlay">
+              <div 
+                v-if="Object.keys(song.platforms).length > 0" 
+                class="portfolio-slider__buttons"
+              >
+                <a 
+                  v-for="(url, platform) in song.platforms"
+                  :key="platform"
+                  :href="url" 
+                  target="_blank" 
+                  class="portfolio-slider__play-button"
+                >
+                  ▶ {{ platform }}
+                </a>
+              </div>
+            </div>
+          </div>
           <p class="portfolio-slider__title">
             {{ song.title }} - {{ song.artist }}
           </p>
@@ -38,11 +56,12 @@
 import { ref, onMounted, computed } from "vue";
 
 class Song {
-  constructor(id, title, artist, cover) {
+  constructor(id, title, artist, cover, platforms = {}) {
     this.id = id;
     this.title = title;
     this.artist = artist;
     this.cover = cover;
+    this.platforms = platforms; // Object with platform names as keys and URLs as values
   }
 }
 
@@ -57,12 +76,31 @@ const siteID = "cp3z846o6xej9jjwfb0zk"; // TODO: replace with actual ID
 // Reactive songs array
 const songs = ref([
   // Default demo data
-  new Song(1, "", "Artist 1", "https://picsum.photos/800"),
-  new Song(2, "", "Artist 2", "https://picsum.photos/800"),
-  new Song(2, "", "Artist 2", "https://picsum.photos/800"),
-  new Song(2, "", "Artist 2", "https://picsum.photos/800"),
-  new Song(3, "", "Artist 3", "https://picsum.photos/800"),
-  new Song(4, "", "Artist 4", "https://picsum.photos/800"),
+  new Song(1, "Demo Song 1", "Artist 1", "https://picsum.photos/800", {
+    "Spotify": "https://open.spotify.com/track/example1",
+    "SoundCloud": "https://soundcloud.com/example1"
+  }),
+  new Song(2, "Demo Song 2", "Artist 2", "https://picsum.photos/800", {
+    "Spotify": "https://open.spotify.com/track/example2",
+    "Bandcamp": "https://example.bandcamp.com/track/example2"
+  }),
+  new Song(3, "Demo Song 3", "Artist 3", "https://picsum.photos/800", {
+    "SoundCloud": "https://soundcloud.com/example3",
+    "YouTube": "https://youtube.com/watch?v=example3"
+  }),
+  new Song(4, "Demo Song 4", "Artist 4", "https://picsum.photos/800", {
+    "Spotify": "https://open.spotify.com/track/example4",
+    "Apple Music": "https://music.apple.com/track/example4",
+    "Bandcamp": "https://example.bandcamp.com/track/example4"
+  }),
+  new Song(5, "Demo Song 5", "Artist 5", "https://picsum.photos/800", {
+    "YouTube": "https://youtube.com/watch?v=example5"
+  }),
+  new Song(6, "Demo Song 6", "Artist 6", "https://picsum.photos/800", {
+    "Spotify": "https://open.spotify.com/track/example6",
+    "SoundCloud": "https://soundcloud.com/example6",
+    "Bandcamp": "https://example.bandcamp.com/track/example6"
+  }),
 ]);
 
 // Create duplicated songs for infinite scroll effect
@@ -87,9 +125,25 @@ const fetchSongs = async () => {
     }
     const data = await response.json();
     // API returns a direct array of songs
-    return data.map(
-      (song) => new Song(song.id, song.title, song.artist, song.albumArtUrl)
-    );
+    return data.map((song) => {
+      const platforms = {};
+      
+      // Check for various platform URLs
+      if (song.spotifyUrl) platforms.Spotify = song.spotifyUrl;
+      if (song.soundcloudUrl) platforms.SoundCloud = song.soundcloudUrl;
+      if (song.bandcampUrl) platforms.Bandcamp = song.bandcampUrl;
+      if (song.youtubeUrl) platforms.YouTube = song.youtubeUrl;
+      if (song.appleMusicUrl) platforms['Apple Music'] = song.appleMusicUrl;
+      if (song.tidalUrl) platforms.Tidal = song.tidalUrl;
+      if (song.deezerUrl) platforms.Deezer = song.deezerUrl;
+      
+      // Fallback to generic URL field
+      if (song.url && Object.keys(platforms).length === 0) {
+        platforms.Listen = song.url;
+      }
+      
+      return new Song(song.id, song.title, song.artist, song.albumArtUrl, platforms);
+    });
   } catch (error) {
     console.error("Error fetching songs:", error);
     return [];
@@ -190,6 +244,10 @@ onMounted(async () => {
   margin: 0;
 }
 
+.portfolio-slider__track:hover {
+  animation-play-state: paused;
+}
+
 .portfolio-slider__item {
   flex-shrink: 0;
   display: flex;
@@ -198,20 +256,73 @@ onMounted(async () => {
   width: 480px;
 }
 
-.portfolio-slider__image {
+.portfolio-slider__image-container {
+  position: relative;
   width: 480px;
   height: 480px;
-  object-fit: cover;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
   margin-bottom: 0.5rem;
+}
+
+.portfolio-slider__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   transform: scale(0.95);
 }
 
-.portfolio-slider__image:hover {
+.portfolio-slider__image-container:hover .portfolio-slider__image {
   transform: scale(1);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.portfolio-slider__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 8px;
+}
+
+.portfolio-slider__image-container:hover .portfolio-slider__overlay {
+  opacity: 1;
+}
+
+.portfolio-slider__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.portfolio-slider__play-button {
+  background: linear-gradient(90deg, #ff3300 0%, #ff9900 100%);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+  box-shadow: 0 4px 16px rgba(255, 51, 0, 0.3);
+  white-space: nowrap;
+  min-width: 120px;
+  text-align: center;
+}
+
+.portfolio-slider__play-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(255, 51, 0, 0.4);
 }
 
 .portfolio-slider__title {
@@ -258,7 +369,7 @@ onMounted(async () => {
     width: 280px;
   }
 
-  .portfolio-slider__image {
+  .portfolio-slider__image-container {
     width: 280px;
     height: 280px;
   }
@@ -269,6 +380,16 @@ onMounted(async () => {
 
   .portfolio-slider__fade {
     width: 60px;
+  }
+
+  .portfolio-slider__play-button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    min-width: 100px;
+  }
+
+  .portfolio-slider__buttons {
+    gap: 0.5rem;
   }
 }
 
@@ -281,7 +402,7 @@ onMounted(async () => {
     width: 320px;
   }
 
-  .portfolio-slider__image {
+  .portfolio-slider__image-container {
     width: 320px;
     height: 320px;
   }
