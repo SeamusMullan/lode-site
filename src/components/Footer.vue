@@ -17,25 +17,26 @@
         <div class="footer-right">
           <div class="footer-contact">
             <h4>Ready to start a project?</h4>
-            <button
+            <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLSdou2etnK34CcXzpmr52aP44fBLkNMu16ww53bgoiXOI1UF2g/viewform"
+              target="_blank"
+              rel="noopener noreferrer"
               class="contact-cta"
-              @click="openEmailClient"
-              aria-label="Send email to example@example.com"
+              aria-label="Fill out Contact Form"
             >
               <svg
-                class="email-icon"
+                class="external-link-icon"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="2"
               >
-                <path
-                  d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-                />
-                <polyline points="22,6 12,13 2,6" />
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+                <polyline points="15,3 21,3 21,9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
               </svg>
               Click to Contact
-            </button>
+            </a>
             <!-- <p class="contact-email">example@example.com</p> -->
           </div>
         </div>
@@ -250,7 +251,7 @@ const openEmailClient = () => {
   opacity: 0.7;
 }
 
-.email-icon {
+.external-link-icon {
   width: 20px;
   height: 20px;
 }
