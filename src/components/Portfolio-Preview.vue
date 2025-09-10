@@ -53,12 +53,30 @@
   </div>
 
   <div class="cta">
-    <a href="/portfolio" class="cta-button">View Full Portfolio</a>
+    <button @click="navigateToPortfolio" class="cta-button">View Full Portfolio</button>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed, onUnmounted } from "vue";
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const navigateToPortfolio = async () => {
+  // Scroll to top immediately
+  document.documentElement.scrollTop = 0
+  document.body.scrollTop = 0
+  
+  await router.push('/portfolio')
+  
+  // Double-check scroll position after navigation
+  setTimeout(() => {
+    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0
+    window.scrollTo(0, 0)
+  }, 150)
+}
 
 class Song {
   constructor(id, title, artist, cover, platforms = {}) {

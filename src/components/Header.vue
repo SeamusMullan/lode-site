@@ -6,15 +6,40 @@
     </div>
 
     <div class="header-right">
-      <a href="/#">Home</a>
-      <a href="/#portfolio">About</a>
-      <a href="/#testimonials">Testimonials</a>
-      <a href="/#contact">Contact</a>
+      <RouterLink to="/">Home</RouterLink>
+      <a href="#about" @click="scrollToSection">About</a>
+      <a href="#testimonials" @click="scrollToSection">Testimonials</a>
+      <RouterLink to="/portfolio">Portfolio</RouterLink>
+      <a href="#contact" @click="scrollToSection">Contact</a>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
+import { useRouter, useRoute } from 'vue-router'
+
+const router = useRouter()
+const route = useRoute()
+
+const scrollToSection = (event) => {
+  event.preventDefault()
+  const targetId = event.target.getAttribute('href').substring(1) // Remove the #
+  
+  // If we're not on the home page, navigate there first
+  if (route.name !== 'Home') {
+    router.push({ name: 'Home', hash: `#${targetId}` })
+    return
+  }
+  
+  // If we're already on the home page, scroll to the section
+  const targetElement = document.getElementById(targetId)
+  if (targetElement) {
+    targetElement.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'start'
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>

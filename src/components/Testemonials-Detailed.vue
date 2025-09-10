@@ -78,7 +78,7 @@ const config = {
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 80%;
   margin: 0 auto;
   position: relative;
   padding: 0 80px;

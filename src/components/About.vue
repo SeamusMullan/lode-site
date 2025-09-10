@@ -46,7 +46,7 @@ export default {
 <style scoped>
 .about {
   padding-bottom: 60px 0;
-  max-width: 60%;
+  max-width: 80%;
   margin: 0 auto;
 }
 
@@ -83,6 +83,7 @@ export default {
   color: #fff;
   text-align: center;
   margin: 0 auto;
+  max-width: 85%;
 }
 
 .team-section {
@@ -101,7 +102,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 30px;
-  max-width: 1200px;
+  max-width: 80%;
   margin: 0 auto;
 }
 

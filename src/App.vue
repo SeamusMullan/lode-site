@@ -1,35 +1,16 @@
 
 <script setup>
-import Header from './components/Header.vue';
-import Hero from './components/Hero.vue';
-import TestemonialLogos from './components/Testemonial-Logos.vue';
-import PortfolioPreview from './components/Portfolio-Preview.vue';
-import About from './components/About.vue';
-import TestemonialDetailed from './components/Testemonials-Detailed.vue';
-import Footer from './components/Footer.vue';
-
+// Main app component - handles routing
 </script>
 
 <template>
   <div class="app">
-    <Header />
-    <!-- Contains RouterLink components -->
-    <main class="content">
-      <!--<Hero />-->
-      <Hero />
-      <TestemonialLogos />
-      <PortfolioPreview />
-      <About />
-      <TestemonialDetailed />
-    </main>
-    <Footer />
+    <RouterView />
   </div>
 </template>
 
 <style scoped>
-
 .app {
   margin: 0px; 
 }
-
 </style>
