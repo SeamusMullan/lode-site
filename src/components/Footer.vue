@@ -8,7 +8,7 @@
           <div class="footer-brand">
             <img src="/lode.png" alt="LODE* Logo" class="footer-logo" />
             <p class="footer-tagline">
-              Your Creative Lodestar
+            Your Creative Lodestar
             </p>
           </div>
         </div>
@@ -153,6 +153,7 @@ const openEmailClient = () => {
   font-size: var(--fs-16);
   color: #b0b0b0;
   line-height: var(--lh-relaxed);
+  padding-left: 3%;
 }
 
 .footer-contact {
