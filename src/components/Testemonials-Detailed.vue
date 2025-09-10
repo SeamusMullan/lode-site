@@ -5,27 +5,15 @@ import { Carousel, Slide, Navigation } from 'vue3-carousel'
 const testimonials = [
   {
     id: 1,
-    quote: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.",
-    name: "John Doe",
-    role: "Creative Director"
+    quote: "Korzana is a very experienced producer and has always been very easy to work with 🙂",
+    name: "Lxvrich",
+    role: "Artist, Songwriter"
   },
   {
     id: 2,
-    quote: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.",
-    name: "Jane Smith",
-    role: "Marketing Manager"
-  },
-  {
-    id: 3,
-    quote: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.",
-    name: "Mike Johnson",
-    role: "Product Manager"
-  },
-  {
-    id: 4,
-    quote: "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint.",
-    name: "Sarah Wilson",
-    role: "UI/UX Designer"
+    quote: "Working with Korzana or Soutjay is a treat. They are both insanely talented artists with the capability to enhance any idea you throw at them. But together? LODE's capabilities are infinitely better. Expect nothing less than greatness from these two.",
+    name: "Maybe blue",
+    role: "Artist"
   }
 ]
 
